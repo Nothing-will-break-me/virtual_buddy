@@ -1,0 +1,15 @@
+name: Auto Assign Reviewers
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign Reviewers
+        uses: kentaro-m/auto-assign-action@v1.2.1
+        with:
+          team-reviewers: 'Nothing-will-break-me/camarotheteam'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
