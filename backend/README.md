@@ -2,6 +2,7 @@
 #### Prerequisites
 - python 3.11
 - MongoDB Server
+- Mongo Shell
 ```
 pip install fastapi[standard] pymongo motor
 ```
@@ -11,6 +12,11 @@ pip install fastapi[standard] pymongo motor
 mongod --port 27017 --bind_ip 127.0.0.1
 ```
 #### 2. Then create database flights with collection flights
+```
+mongosh
+use flights
+db.createCollection("flights")
+```
 #### 3. Run python server
 ```
 cd <...>/virtual_buddy/backend
