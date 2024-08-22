@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional, List, Annotated
 
 from fastapi import UploadFile, File
-from pydantic import BaseModel, Field, ConfigDict, BeforeValidator
+from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, validator, field_validator
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
@@ -13,14 +13,14 @@ class ActivityModel(BaseModel):
     Container for a single database record.
     """
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
-    user_id: Optional[PyObjectId] = Field(description="The ID of the activity owner", default=None)
-    addition_date: Optional[datetime] = Field(description="Activity addition date", default=None)
-    start_time: Optional[datetime] = Field(description="Start time of the activity", default=None)
-    end_time: Optional[datetime] = Field(description="End time of the activity", default=None)
-    type: Optional[str] = Field(description="Type of the activity", default=None)
-    title: Optional[str] = Field(description="Title of the activity", default=None)
+    user_id: PyObjectId = Field(description="The ID of the activity owner", default=None)
+    addition_date: datetime = Field(description="Date of addition of the activity", default=datetime.now())
+    start_time: datetime = Field(description="Start time of the activity", default=None)
+    end_time: datetime = Field(description="End time of the activity", default=None)
+    type: str = Field(description="Type of the activity", default=None)
+    title: str = Field(description="Title of the activity", default=None)
     description: Optional[str] = Field(description="Description of the activity", default=None)
-    images: List[str] = Field(default_factory=list, description="Paths to locally stored images")
+
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True,
@@ -33,7 +33,6 @@ class ActivityModel(BaseModel):
                 "type": "Running",
                 "title": "Workout",
                 "description": "Awesome weather and awesome running. I love running",
-                "images": "./resources/190jdi213dmasi232190mas.jpg",
             }
         },
     )
@@ -52,7 +51,6 @@ class ActivityCreate(BaseModel):
     type: str
     title: str
     description: str
-    files: List[UploadFile] = File(default_factory=list)
 
 
 class ActivityUpdate(BaseModel):
@@ -61,7 +59,6 @@ class ActivityUpdate(BaseModel):
     """
     title: Optional[str] = None
     description: Optional[str] = None
-    files: Optional[List[UploadFile]] = None
 
 
 class ActivityResponse(BaseModel):

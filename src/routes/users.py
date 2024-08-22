@@ -23,7 +23,7 @@ async def create_user(user: UserCreate):
     Insert a new record.
     A unique `id` will be created and provided in the response.
     """
-    user = UserModel(username=user.username, email=user.email)
+    user = UserModel(**user.model_dump())
     new_user = await user_collection.insert_one(user.model_dump(by_alias=True, exclude={"id"}))
     logger.debug(f"Inserted user {new_user.inserted_id}")
     return UserResponse(id=new_user.inserted_id)
@@ -62,7 +62,7 @@ async def get_user_by_id(user_id: str):
 @router.put(
     "/{user_id}",
     response_description="Update a user",
-    response_model=UserResponse,
+    response_model=UserModel,
     response_model_by_alias=False,
 )
 async def update_user(user_id: str, user: UserUpdate = Body(...)):
@@ -99,7 +99,7 @@ async def update_user(user_id: str, user: UserUpdate = Body(...)):
 @router.delete(
     "/{user_id}",
     response_description="Delete a user")
-async def delete_flight(user_id: str):
+async def delete_user(user_id: str):
     """
     Remove a single user record from the database.
     """
