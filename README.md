@@ -3,15 +3,17 @@
 - python 3.11
 - MongoDB Server
 - Mongo Shell
+
+Application packages
 ```
-pip install fastapi[standard] pymongo motor pydantic-settings httpx
+pip install fastapi[standard] pymongo motor pydantic-settings httpx pytest pytest-asyncio pytest-order
 ```
 
 #### 1. To use it run mongodb server as administrator by prompting: 
 ```
 mongod --port 27017 --bind_ip 127.0.0.1
 ```
-#### 2. Then create database flights with collection flights
+#### 2. Then create database and collections with specified names
 ```
 mongosh
 use virtual_buddy_db
@@ -29,3 +31,8 @@ cd <...>/virtual_buddy_backend
 python -m src.server
 ```
 #### 4. To use API check docs at localhost:8080/docs
+
+#### 5. To run the tests
+```
+pytest ./tests -vv
+```

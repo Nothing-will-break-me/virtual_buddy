@@ -23,6 +23,7 @@ async def create_activity(activity: ActivityCreate):
     Insert a new record.
     A unique `id` will be created and provided in the response.
     """
+    activity = ActivityModel(**activity.model_dump())
     new_activity = await activity_collection.insert_one(activity.model_dump(by_alias=True, exclude={"id"}))
     logger.debug(f"Inserted activity {new_activity}")
     return ActivityResponse(id=new_activity.inserted_id)
@@ -61,7 +62,7 @@ async def get_activity_by_id(activity_id: str):
 @router.put(
     "/{activity_id}",
     response_description="Update an activity",
-    response_model=ActivityResponse,
+    response_model=ActivityModel,
     response_model_by_alias=False,
 )
 async def update_activity(activity_id: str, activity: ActivityUpdate = Body(...)):
@@ -98,7 +99,7 @@ async def update_activity(activity_id: str, activity: ActivityUpdate = Body(...)
 @router.delete(
     "/{activity_id}",
     response_description="Delete a activity")
-async def delete_flight(activity_id: str):
+async def delete_activity(activity_id: str):
     """
     Remove a single user record from the database.
     """
