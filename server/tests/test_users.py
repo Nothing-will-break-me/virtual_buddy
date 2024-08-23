@@ -16,7 +16,7 @@ def user_data():
     ]
 
 
-@pytest.mark.asyncio(scope="session")
+@pytest.mark.asyncio(loop_scope="session")
 @pytest.mark.order(1)
 async def test_create(user_data):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://localhost:8000") as ac:
@@ -28,7 +28,7 @@ async def test_create(user_data):
             pytest.user_ids.append(user_id)
 
 
-@pytest.mark.asyncio(scope="session")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_read_user_by_id(user_data):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://localhost:8000") as ac:
         for i, user in enumerate(user_data):
@@ -38,7 +38,7 @@ async def test_read_user_by_id(user_data):
             assert response.json() == {"id": user_id, "friends": [], **user_data[i]}
 
 
-@pytest.mark.asyncio(scope="session")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_read_users(user_data):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://localhost:8000") as ac:
         response = await ac.get("/users")
@@ -48,7 +48,7 @@ async def test_read_users(user_data):
         assert obj == {"friends": [], **user_data[i]}
 
 
-@pytest.mark.asyncio(scope="session")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_update_user(user_data):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://localhost:8000") as ac:
         user_id = pytest.user_ids[0]
@@ -58,7 +58,7 @@ async def test_update_user(user_data):
         assert response.json() == {"id": user_id, "friends": [], **user_data[0]}
 
 
-@pytest.mark.asyncio(scope="session")
+@pytest.mark.asyncio(loop_scope="session")
 async def test_delete_user(user_data):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://localhost:8000") as ac:
         for i, _ in enumerate(user_data):
