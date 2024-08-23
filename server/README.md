@@ -1,4 +1,4 @@
-## Sample app showing how to use FastAPI + MongoDB in asynchronous manner. 
+## Backend part of the application 
 #### Prerequisites
 - python 3.11
 - MongoDB Server
@@ -22,17 +22,18 @@ db.createCollection("activities")
 ```
 #### 3. Run python server
 ```
-cd <...>/virtual_buddy_backend
+cd <PROJECT_ROOT>/server
 uvicorn src.main:app --reload
 ```
 or
 ```
-cd <...>/virtual_buddy_backend
+cd <PROJECT_ROOT>/server
 python -m src.server
 ```
 #### 4. To use API check docs at localhost:8080/docs
 
 #### 5. To run the tests
 ```
+cd <PROJECT_ROOT>/server
 pytest ./tests -vv
 ```
