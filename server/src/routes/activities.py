@@ -35,12 +35,15 @@ async def create_activity(activity: ActivityCreate):
     response_model=ActivityCollection,
     response_model_by_alias=False,
 )
-async def get_activities():
+async def get_activities(user_id: str | None = None):
     """
     Get all the activity records from database.
     The response is unpaginated and limited to 1000 results.
     """
-    return ActivityCollection(activities=await activity_collection.find().to_list(1000))
+    query = {}
+    if user_id is not None:
+        query["user_id"] = user_id
+    return ActivityCollection(activities=await activity_collection.find(query).to_list(1000))
 
 
 @router.get(
