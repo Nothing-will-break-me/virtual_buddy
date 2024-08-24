@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/src/features/sample_feature/activity_service.dart';
+import 'package:frontend/src/features/activity_list/activity_service.dart';
 
 import '../../settings/settings_view.dart';
 import '../../settings/settings_controller.dart';
@@ -11,7 +11,7 @@ import 'dart:developer';
 class ActivityListView extends StatefulWidget {
   const ActivityListView({super.key, required this.controller});
   final SettingsController controller;
-  static const routeName = "/";
+  static const routeName = "/activities";
   @override
   _ActivityListView createState() => _ActivityListView();
 }

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'features/sample_feature/activity_details_view.dart';
-import 'features/sample_feature/activity_list_view.dart';
+import 'features/activity_list/activity_details_view.dart';
+import 'features/activity_list/activity_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
-import 'features/sample_feature/activity_model.dart';
+import 'features/activity_list/activity_model.dart';
+import 'features/app_navigator/app_navigator_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
           //
           // The appTitle is defined in .arb files found in the localization
           // directory.
-          onGenerateTitle: (BuildContext context) =>
+          onGenerateTitle
+          : (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
 
           // Define a light and dark color theme. Then, read the user's
@@ -74,6 +76,11 @@ class MyApp extends StatelessWidget {
                 final activity = routeSettings.arguments as Activity;
                 return MaterialPageRoute<void>(
                   builder: (BuildContext context) => ActivityDetailsView(activity: activity),
+                  settings: routeSettings,
+                );
+              case AppNavigator.routeName:
+                return MaterialPageRoute<void>(
+                  builder: (BuildContext context) => AppNavigator(controller: settingsController),
                   settings: routeSettings,
                 );
               case ActivityListView.routeName:
