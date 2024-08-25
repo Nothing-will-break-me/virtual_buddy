@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 /// A placeholder class that represents an entity or model.
 class Activity {
   final String id;
@@ -14,7 +12,6 @@ class Activity {
             required this.additionDate, required this.startTime, required this.endTime});
 
   factory Activity.fromJson(Map<String, dynamic> json) {
-    log(json['description']);
     return Activity(
       id: json['id'],
       userId: json['user_id'],

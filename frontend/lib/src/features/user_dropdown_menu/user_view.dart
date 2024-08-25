@@ -10,7 +10,7 @@ class UserDropdown extends StatefulWidget {
   final SettingsController controller;
 
   @override
-  _UserDropdownState createState() => _UserDropdownState();
+  State<UserDropdown> createState() => _UserDropdownState();
 }
 
 class _UserDropdownState extends State<UserDropdown> {

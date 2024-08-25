@@ -1,9 +1,9 @@
 {
-  "appTitle": "frontend",
+  "appTitle": "frontend but in Spanish",
   "@appTitle": {
     "description": "The title of the application"
   },
-  "activityFeed": "Activity feed",
+  "activityFeed": "Activity feed but in Spanish",
   "@activityFeed": {
     "description": "Activity feed name"
   }

@@ -12,15 +12,4 @@ class User {
       email: json['email'],
     );
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is User &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          username == other.username;
-
-  @override
-  int get hashCode => id.hashCode ^ username.hashCode;
 }

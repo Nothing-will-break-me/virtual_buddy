@@ -5,7 +5,7 @@ import 'activity_model.dart';
 class ActivityDetailsView extends StatelessWidget {
   const ActivityDetailsView({super.key, required this.activity});
 
-  static const routeName = '/sample_item';
+  static const routeName = '/activity';
   final Activity activity;
 
   @override

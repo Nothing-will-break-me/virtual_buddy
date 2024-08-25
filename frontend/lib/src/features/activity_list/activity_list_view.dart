@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/features/activity_list/activity_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../settings/settings_view.dart';
 import '../../settings/settings_controller.dart';
@@ -12,13 +13,13 @@ class ActivityListView extends StatefulWidget {
   const ActivityListView({super.key, required this.controller});
   final SettingsController controller;
   static const routeName = "/activities";
+
   @override
-  _ActivityListView createState() => _ActivityListView();
+  State<ActivityListView> createState() => _ActivityListView();
 }
 
 class _ActivityListView extends State<ActivityListView> {
   late Future<List<Activity>> futureActivities;
-  //List<Activity> activities;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _ActivityListView extends State<ActivityListView> {
   // Load the saved user
   void _loadActivities() async {
     futureActivities.then((activities) {
-        log("loaded activities");
+        log("Loaded activities");
       });
   }
 
@@ -38,7 +39,7 @@ class _ActivityListView extends State<ActivityListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Activity feed'),
+        title: Text(AppLocalizations.of(context)!.activityFeed),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -74,33 +75,14 @@ class _ActivityListView extends State<ActivityListView> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(child: Text('No users found'));
               } else {
-                List<Activity>? activityList = snapshot.data;
+                List<Activity> activityList = snapshot.data!;
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  restorationId: 'sampleItemListView',
-                  itemCount: activityList?.length ?? 0,
+                  restorationId: 'ActivityFeedListView',
+                  itemCount: activityList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final activity = activityList?[index];
-            
-                    return ListTile(
-                      title: Text(activity?.title ?? "none"),
-                      leading: const CircleAvatar(
-                        // Display the Flutter Logo image asset.
-                        foregroundImage: AssetImage('assets/images/flutter_logo.png'),
-                      ),
-                      onTap: () {
-                        // Navigate to the details page. If the user leaves and returns to
-                        // the app after it has been killed while running in the
-                        // background, the navigation stack is restored.
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ActivityDetailsView(activity: activity!),
-                          ),
-                        );
-                      }
-                    );
+                    return getListTile(activityList[index], context);
                   },
                 );}
               } 
@@ -117,5 +99,26 @@ class _ActivityListView extends State<ActivityListView> {
         ],
       ),
     );
+  }
+
+  ListTile getListTile(Activity? activity, BuildContext context) {
+    return ListTile(
+                    title: Text(activity?.title ?? "none"),
+                    leading: const CircleAvatar(
+                      // Display the Flutter Logo image asset.
+                      foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+                    ),
+                    onTap: () {
+                      // Navigate to the details page. If the user leaves and returns to
+                      // the app after it has been killed while running in the
+                      // background, the navigation stack is restored.
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ActivityDetailsView(activity: activity!),
+                        ),
+                      );
+                    }
+                  );
   }
 }

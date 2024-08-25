@@ -45,16 +45,16 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('en', ''), // English, no country code
+            Locale('es'),
           ],
+          locale: const Locale('en', ''),
 
           // Use AppLocalizations to configure the correct application title
           // depending on the user's locale.
           //
           // The appTitle is defined in .arb files found in the localization
           // directory.
-          onGenerateTitle
-          : (BuildContext context) =>
-              AppLocalizations.of(context)!.appTitle,
+          onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
 
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
