@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  server:
+    image: vbs
+    container_name: virtual_buddy_server
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./env/.env.docker
+    depends_on:
+      - my-mongo  # Ensures MongoDB starts before the app
+
+  my-mongo:
+    image: mongo
+    container_name: my-mongodb
+    ports:
+      - "27017:27017"

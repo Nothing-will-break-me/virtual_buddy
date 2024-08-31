@@ -1,0 +1,6 @@
+FROM mongo:latest as mongo-base
+
+COPY data-init.js /docker-entrypoint-initdb.d/
+EXPOSE 27017
+CMD ["mongod", "--port", "27017", "--bind_ip", "0.0.0.0"]
+

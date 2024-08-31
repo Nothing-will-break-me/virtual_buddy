@@ -37,3 +37,12 @@ python -m src.server
 cd <PROJECT_ROOT>/server
 pytest ./tests -vv
 ```
+
+### Docker run
+```
+cd <PROJECT_ROOT>/server
+docker build -t vbs .
+docker build -t mongo . -f Dockerfile.database
+docker-compose up
+```
+Then you can reach the application the same as in local mode
