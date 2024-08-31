@@ -6,7 +6,7 @@ from starlette.responses import Response
 
 from ..models.activities import ActivityResponse, ActivityCreate, ActivityCollection, ActivityModel, ActivityUpdate
 from ..database import activity_collection
-from ..logs import logger
+from ..logs import log
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ async def create_activity(activity: ActivityCreate):
     """
     activity = ActivityModel(**activity.model_dump())
     new_activity = await activity_collection.insert_one(activity.model_dump(by_alias=True, exclude={"id"}))
-    logger.debug(f"Inserted activity {new_activity}")
+    log(__name__, "DEBUG", f"Inserted activity {new_activity}")
     return ActivityResponse(id=new_activity.inserted_id)
 
 
@@ -86,14 +86,14 @@ async def update_activity(activity_id: str, activity: ActivityUpdate = Body(...)
             return_document=ReturnDocument.AFTER,
         )
         if update_result is not None:
-            logger.debug(f"Updated activity {update_result}")
+            log(__name__, "DEBUG", f"Updated activity {update_result}")
             return update_result
         else:
             raise HTTPException(status_code=404, detail=f"Not found")
 
     # The update is empty, but we should still return the matching document:
     if (existing_activity := await activity_collection.find_one({"_id": activity_id})) is not None:
-        logger.debug(f"Activity {existing_activity} not updated")
+        log(__name__, "DEBUG", f"Activity {existing_activity} not updated")
         return existing_activity
 
     raise HTTPException(status_code=404, detail=f"Not found")
@@ -109,7 +109,7 @@ async def delete_activity(activity_id: str):
     delete_result = await activity_collection.delete_one({"_id": ObjectId(activity_id)})
 
     if delete_result.deleted_count == 1:
-        logger.debug(f"Deleted activity {delete_result}")
+        log(__name__, "DEBUG", f"Deleted activity {delete_result}")
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"Not Found")

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routes import (
+from .routes import (
     users,
     activities,
 )

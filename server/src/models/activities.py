@@ -2,8 +2,7 @@ from datetime import datetime
 
 from typing import Optional, List, Annotated
 
-from fastapi import UploadFile, File
-from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, validator, field_validator
+from pydantic import BaseModel, Field, ConfigDict, BeforeValidator
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 

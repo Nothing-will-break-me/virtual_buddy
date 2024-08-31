@@ -6,7 +6,7 @@ from starlette.responses import Response
 
 from ..models.users import UserResponse, UserCreate, UserCollection, UserModel, UserUpdate
 from ..database import user_collection
-from ..logs import logger
+from ..logs import log
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ async def create_user(user: UserCreate):
     """
     user = UserModel(**user.model_dump())
     new_user = await user_collection.insert_one(user.model_dump(by_alias=True, exclude={"id"}))
-    logger.debug(f"Inserted user {new_user.inserted_id}")
+    log(__name__, "DEBUG", f"Inserted user {new_user.inserted_id}")
     return UserResponse(id=new_user.inserted_id)
 
 
@@ -83,14 +83,14 @@ async def update_user(user_id: str, user: UserUpdate = Body(...)):
             return_document=ReturnDocument.AFTER,
         )
         if update_result is not None:
-            logger.debug(f"Updated user {update_result}")
+            log(__name__, "DEBUG", f"Updated user {update_result}")
             return update_result
         else:
             raise HTTPException(status_code=404, detail=f"Not found")
 
     # The update is empty, but we should still return the matching document:
     if (existing_user := await user_collection.find_one({"_id": user_id})) is not None:
-        logger.debug(f"User {existing_user} not updated")
+        log(__name__, "DEBUG", f"User {existing_user} not updated")
         return existing_user
 
     raise HTTPException(status_code=404, detail=f"Not found")
@@ -106,7 +106,7 @@ async def delete_user(user_id: str):
     delete_result = await user_collection.delete_one({"_id": ObjectId(user_id)})
 
     if delete_result.deleted_count == 1:
-        logger.debug(f"Deleted user {delete_result}")
+        log(__name__, "DEBUG", f"Deleted user {delete_result}")
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"Not Found")

@@ -1,7 +1,8 @@
+import logging
 import os
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from src.logs import logger
+from .logs import log
 
 
 class Settings(BaseSettings):
@@ -13,11 +14,19 @@ class Settings(BaseSettings):
     API_VERSION: str
     ENV: str
 
+    LOG_CONFIG: str
+
     MONGODB_URL: str
     DB_NAME: str
 
     SERVER_HOST: str
     SERVER_PORT: int
+
+    def __repr__(self):
+        text = "\nSettings:\n"
+        for attr, value in self.__dict__.items():
+            text += f"   {attr}: {value}\n"
+        return text
 
 
 class ContainerDevSettings(Settings):
@@ -35,13 +44,11 @@ class ContainerTestSettings(Settings):
 
 
 def get_settings(env: str = "dev") -> Settings:
-    logger.debug(f"Getting settings for env: {env}")
     supported_envs = ["dev", "test"]
-
+    log(__name__, "INFO", f"Loading settings for {env.lower()}")
     if env.lower() in "dev":
         return ContainerDevSettings()
     elif env.lower() in "test":
-        logger.info(os.getcwd())
         return ContainerTestSettings()
     raise ValueError(f"Unrecognized env type. Supported are {supported_envs}")
 
