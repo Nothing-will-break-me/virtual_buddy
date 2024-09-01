@@ -1,4 +1,3 @@
-import logging
 import os
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -21,6 +20,10 @@ class Settings(BaseSettings):
 
     SERVER_HOST: str
     SERVER_PORT: int
+
+    SECRET_KEY: str
+    ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     def __repr__(self):
         text = "\nSettings:\n"

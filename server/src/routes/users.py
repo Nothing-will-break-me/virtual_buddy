@@ -1,32 +1,17 @@
+from typing import Annotated
+
 from bson import ObjectId
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Depends
 from pymongo import ReturnDocument
 from starlette import status
 from starlette.responses import Response
 
-from ..models.users import UserResponse, UserCreate, UserCollection, UserModel, UserUpdate
+from ..dependencies import get_current_user
+from ..models.users import UserCollection, UserModel, UserUpdate
 from ..database import user_collection
 from ..logs import log
 
 router = APIRouter()
-
-
-@router.post(
-    "",
-    response_description="Add new user",
-    response_model=UserResponse,
-    status_code=status.HTTP_201_CREATED,
-    response_model_by_alias=False,
-)
-async def create_user(user: UserCreate):
-    """
-    Insert a new record.
-    A unique `id` will be created and provided in the response.
-    """
-    user = UserModel(**user.model_dump())
-    new_user = await user_collection.insert_one(user.model_dump(by_alias=True, exclude={"id"}))
-    log(__name__, "DEBUG", f"Inserted user {new_user.inserted_id}")
-    return UserResponse(id=new_user.inserted_id)
 
 
 @router.get(
@@ -110,3 +95,11 @@ async def delete_user(user_id: str):
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"Not Found")
+
+
+@router.get(
+    "/my/data",
+    response_description="Get information about current user",
+    response_model=UserModel,)
+async def get_users_me(current_user: Annotated[UserModel, Depends(get_current_user)]):
+    return current_user
