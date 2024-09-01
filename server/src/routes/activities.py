@@ -1,9 +1,10 @@
 from bson import ObjectId
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Depends
 from pymongo import ReturnDocument
 from starlette import status
 from starlette.responses import Response
 
+from dependencies import get_current_user
 from ..models.activities import ActivityResponse, ActivityCreate, ActivityCollection, ActivityModel, ActivityUpdate
 from ..database import activity_collection
 from ..logs import log
@@ -18,12 +19,13 @@ router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model_by_alias=False,
 )
-async def create_activity(activity: ActivityCreate):
+async def create_activity(user: Depends(get_current_user), activity: ActivityCreate):
     """
     Insert a new record.
     A unique `id` will be created and provided in the response.
     """
     activity = ActivityModel(**activity.model_dump())
+    activity.user_id = user.id
     new_activity = await activity_collection.insert_one(activity.model_dump(by_alias=True, exclude={"id"}))
     log(__name__, "DEBUG", f"Inserted activity {new_activity}")
     return ActivityResponse(id=new_activity.inserted_id)

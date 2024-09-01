@@ -6,7 +6,7 @@
 
 Application packages
 ```
-pip install fastapi[standard] pymongo motor pydantic-settings httpx pytest pytest-asyncio pytest-order
+pip install fastapi[standard] pymongo motor pydantic-settings httpx pytest pytest-asyncio pytest-order pyjwt passlib bcrypt==4.0.1
 ```
 
 #### 1. To use it run mongodb server as administrator by prompting: 
