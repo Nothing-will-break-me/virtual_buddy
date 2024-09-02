@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/src/features/activity_add/activity_add_view.dart';
 import '../../settings/settings_controller.dart';
 import '../activity_list/activity_list_view.dart';
 
@@ -47,9 +48,9 @@ class _AppNavigatorState extends State<AppNavigator> {
         ],
       ),
       body: <Widget>[
+        const Center(child: Text("Your avatar")),
+        ActivityAddForm(controller: widget.controller),
         ActivityListView(controller: widget.controller),
-        const Center(child: Text("Second page")),
-        const Center(child: Text("Third page")),
       ][currentPageIndex],
     );
   }
