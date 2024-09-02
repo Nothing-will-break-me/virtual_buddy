@@ -37,8 +37,8 @@ class _AppNavigatorState extends State<AppNavigator> {
             label: 'Avatar',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Record',
+            icon: Badge(child: Icon(Icons.add_circle)),
+            label: 'Add new activity',
           ),
           NavigationDestination(
             icon: Badge(child: Icon(Icons.dangerous)),

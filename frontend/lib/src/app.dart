@@ -8,6 +8,7 @@ import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 import 'features/activity_list/activity_model.dart';
 import 'features/app_navigator/app_navigator_view.dart';
+import 'features/auth/login/login_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
+          home: LoginScreen(settingsController: settingsController),
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
