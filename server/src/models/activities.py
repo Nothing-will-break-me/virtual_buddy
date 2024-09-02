@@ -44,7 +44,7 @@ class ActivityCreate(BaseModel):
     """
     Schema for POST request
     """
-    user_id: PyObjectId
+    user_id: PyObjectId = None
     start_time: datetime
     end_time: datetime
     type: str

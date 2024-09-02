@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+enum ActivityType { running, gym }
+
 /// A placeholder class that represents an entity or model.
 class Activity {
   final String id;
@@ -21,5 +25,16 @@ class Activity {
       startTime: DateTime.parse(json['start_time']),
       endTime: DateTime.parse(json['end_time']),
     );
+  }
+
+
+  static getAddJson(String title, String description, DateTime startTime, DateTime endTime, ActivityType type) {
+    return json.encode({
+      "title": title,
+      "description": description,
+      "type": type.name,
+      "start_time": startTime.toString(),
+      "end_time": endTime.toString()
+    });
   }
 }
