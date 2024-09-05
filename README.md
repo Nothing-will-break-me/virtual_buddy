@@ -4,6 +4,7 @@
 - MongoDB Server
 - Mongo Shell
 - Flutter 3.24.1
+- openssl
 
 To use the application create virtualenv and install packages for backend
 ```
