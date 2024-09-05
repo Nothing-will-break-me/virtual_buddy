@@ -15,15 +15,22 @@ class Settings(BaseSettings):
 
     LOG_CONFIG: str
 
+    # Database
     MONGODB_URL: str
     DB_NAME: str
 
+    # Server
     SERVER_HOST: str
     SERVER_PORT: int
 
+    # Hashing algorithm
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
+
+    # Certificates for HTTPS
+    SSL_PUBLIC_KEY_PATH: str
+    SSL_PRIVATE_KEY_PATH: str
 
     def __repr__(self):
         text = "\nSettings:\n"

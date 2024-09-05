@@ -24,7 +24,7 @@ class _ActivityListView extends State<ActivityListView> {
   @override
   void initState() {
     super.initState();
-    futureActivities = fetchActivities(widget.controller.user?.id);
+    futureActivities = fetchActivities();
     _loadActivities();
   }
 
@@ -73,7 +73,7 @@ class _ActivityListView extends State<ActivityListView> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No users found'));
+                return const Center(child: Text('No activities found'));
               } else {
                 List<Activity> activityList = snapshot.data!;
                 return ListView.builder(
@@ -91,7 +91,7 @@ class _ActivityListView extends State<ActivityListView> {
           FloatingActionButton(
             onPressed: (){
               setState(() {
-                futureActivities = fetchActivities(widget.controller.user?.id);
+                futureActivities = fetchActivities();
               });
             },
             child: const Icon(Icons.refresh)

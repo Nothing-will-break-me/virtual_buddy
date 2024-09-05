@@ -6,7 +6,7 @@ from pymongo import ReturnDocument
 from starlette import status
 from starlette.responses import Response
 
-from models.users import UserModel
+from ..models.users import UserModel
 from ..dependencies import get_current_user
 from ..models.activities import ActivityResponse, ActivityCreate, ActivityCollection, ActivityModel, ActivityUpdate
 from ..database import activity_collection
@@ -40,14 +40,14 @@ async def create_activity(user: Annotated[UserModel, Depends(get_current_user)],
     response_model=ActivityCollection,
     response_model_by_alias=False,
 )
-async def get_activities(user_id: str | None = None):
+async def get_activities(user: Annotated[UserModel, Depends(get_current_user)]):
     """
     Get all the activity records from database.
     The response is unpaginated and limited to 1000 results.
     """
     query = {}
-    if user_id is not None:
-        query["user_id"] = user_id
+    if user is not None:
+        query["user_id"] = user.id
     return ActivityCollection(activities=await activity_collection.find(query).to_list(1000))
 
 

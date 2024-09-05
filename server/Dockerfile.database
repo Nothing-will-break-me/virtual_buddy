@@ -1,4 +1,4 @@
-FROM mongo:latest as mongo-base
+FROM mongo:latest AS mongo-base
 
 COPY data-init.js /docker-entrypoint-initdb.d/
 EXPOSE 27017

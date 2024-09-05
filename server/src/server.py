@@ -1,3 +1,5 @@
+import os
+
 import uvicorn
 
 from .config import settings
@@ -15,11 +17,14 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     log(__name__, "INFO", settings.__repr__())
+    log(__name__, "INFO", os.getcwd())
     uvicorn.run(
         "src.main:app",
         host=settings.SERVER_HOST,
         port=settings.SERVER_PORT,
         reload=args.reload,
         log_config=settings.LOG_CONFIG,
+        ssl_certfile=settings.SSL_PUBLIC_KEY_PATH,
+        ssl_keyfile=settings.SSL_PRIVATE_KEY_PATH,
     )
 
