@@ -55,7 +55,6 @@ class _UserDropdownState extends State<UserDropdown> {
               setState(() {
                 selectedUser = newUser;
               });
-              widget.controller.updateUser(newUser);
             },
             items: snapshot.data!.map<DropdownMenuItem<User>>((User user) {
               return DropdownMenuItem<User>(

@@ -24,7 +24,14 @@ use virtual_buddy_db
 db.createCollection("users")
 db.createCollection("activities")
 ```
-#### 3. Run the server
+#### 3. Generate self-signed certificates
+```
+cd <PROJECT_ROOT>/server
+mkdir certs
+openssl req -x509 -newkey rsa:4096 -nodes -out certs/cert.pem -keyout certs/key.pem -days 365
+```
+Then accept defaults by clicking Enter multiple times
+#### 4. Run the server
 ```
 cd <PROJECT_ROOT>/server
 python -m src.server

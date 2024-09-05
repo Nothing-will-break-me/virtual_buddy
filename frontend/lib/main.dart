@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -8,8 +8,10 @@ import 'src/settings/settings_service.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:window_size/window_size.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env/dev.env");
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
   final settingsController = SettingsController(SettingsService());
@@ -18,6 +20,9 @@ void main() async {
   // This prevents a sudden theme change when the app is first displayed.
   await settingsController.loadSettings();
 
+  if (dotenv.env['SERVER_API_BASE_URL']!.startsWith("https")) {
+    HttpOverrides.global = MyHttpOverrides();
+  }
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
@@ -42,5 +47,14 @@ void setupWindow() {
         height: windowHeight,
       ));
     });
+  }
+}
+
+
+ class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

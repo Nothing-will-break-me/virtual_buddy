@@ -50,13 +50,4 @@ class SettingsController with ChangeNotifier {
     // SettingService.
     await _settingsService.updateThemeMode(newThemeMode);
   }
-
-  void updateUser(User? newUser) async {
-    if (newUser == null) return;
-
-    _user = newUser;
-
-    // Important! Inform listeners a change has occurred.
-    notifyListeners();
-  }
 }

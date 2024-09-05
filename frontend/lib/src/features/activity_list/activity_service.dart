@@ -1,15 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../auth/auth_controller.dart';
 import 'activity_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
-Future<List<Activity>> fetchActivities(String? userId) async {
-  Map<String, String> params = {};
-  if (userId != null) {
-    params["user_id"] = userId;
-  }
-  Uri query = Uri.http('localhost:8000', '/activities', params);
-  final response = await http.get(query);
+Future<List<Activity>> fetchActivities() async {
+  final baseUrl = dotenv.env['SERVER_API_BASE_URL']!;
+  final token = await getToken();
+  final response = await http.get(
+    Uri.parse('$baseUrl/activities'),
+    headers: <String, String>{
+      'Authorization': "Bearer $token"
+    }
+  );
   await Future.delayed(const Duration(seconds: 1));
   if (response.statusCode != 200) {
     throw Exception('[${response.statusCode}] Failed to load activities');

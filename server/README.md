@@ -3,6 +3,7 @@
 - python 3.11
 - MongoDB Server
 - Mongo Shell
+- openssl
 
 Application packages
 ```
@@ -20,19 +21,24 @@ use virtual_buddy_db
 db.createCollection("users")
 db.createCollection("activities")
 ```
-#### 3. Run python server
+
+#### 3. Generate self-signed certificates
 ```
 cd <PROJECT_ROOT>/server
-uvicorn src.main:app --reload
+mkdir certs
+openssl req -x509 -newkey rsa:4096 -nodes -out certs/cert.pem -keyout certs/key.pem -days 365
 ```
-or
+Then accept defaults by clicking Enter multiple times
+
+#### 4. Run python server
+
 ```
 cd <PROJECT_ROOT>/server
 python -m src.server
 ```
-#### 4. To use API check docs at localhost:8080/docs
+#### 5. To use API check docs at localhost:8080/docs
 
-#### 5. To run the tests
+#### 6. To run the tests
 ```
 cd <PROJECT_ROOT>/server
 pytest ./tests -vv
