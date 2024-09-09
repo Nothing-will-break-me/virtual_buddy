@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/features/activity_list/activity_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:frontend/src/features/search_bar/search_bar_view.dart';
 
 import '../../settings/settings_view.dart';
 import '../../settings/settings_controller.dart';
@@ -61,6 +62,7 @@ class _ActivityListView extends State<ActivityListView> {
       // builds Widgets as they’re scrolled into view.
       body: Column(
         children: [
+          const SearchBarWidget(),
           Expanded(
             child: FutureBuilder<List<Activity>>(
               // Providing a restorationId allows the ListView to restore the

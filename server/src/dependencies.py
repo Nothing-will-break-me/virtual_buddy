@@ -1,3 +1,5 @@
+from typing import Annotated, Optional
+
 import jwt
 from bson import ObjectId
 from fastapi import Depends
@@ -25,9 +27,27 @@ def get_token(token: str = Depends(oauth2_scheme)) -> TokenPayload:
     return token_data
 
 
-async def get_current_user(token: TokenPayload = Depends(get_token)):
+async def get_current_user(token: TokenPayload = Depends(get_token)) -> UserModel:
     user_id = token.sub
     user = await user_collection.find_one({"_id": ObjectId(user_id)})
     if user is None:
         raise _get_credential_exception(status_code=status.HTTP_404_NOT_FOUND, details="User not found")
     return UserModel(**user)
+
+
+def validate_username_length(username: str | None = None) -> Optional[str | None]:
+    if username is None:
+        return None
+    return username[:min(len(username), 64)]
+
+
+def validate_username(username: Annotated[str | None, Depends(validate_username_length)] = None) \
+        -> Optional[str | None]:
+    if username is None:
+        return None
+    translation_dict = {"<": "", ">": "", "&": "", "`": "", '"': ""}
+    trans_table = str.maketrans(translation_dict)
+    return username.translate(trans_table)
+
+
+

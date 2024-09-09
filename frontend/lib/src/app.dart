@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:frontend/src/features/search_bar/search_bar_view.dart';
+import 'package:frontend/src/features/user_dropdown_menu/user_details_view.dart';
+import 'package:frontend/src/features/user_dropdown_menu/user_model.dart';
+import 'package:frontend/src/features/user_dropdown_menu/user_service.dart';
 
 import 'features/activity_list/activity_details_view.dart';
 import 'features/activity_list/activity_list_view.dart';
@@ -80,9 +84,19 @@ class MyApp extends StatelessWidget {
                   builder: (BuildContext context) => ActivityDetailsView(activity: activity),
                   settings: routeSettings,
                 );
+                case UserDetailsView.routeName:
+                final user = routeSettings.arguments as User;
+                return MaterialPageRoute<void>(
+                  builder: (BuildContext context) => UserDetailsView(user: user),
+                  );
               case AppNavigator.routeName:
                 return MaterialPageRoute<void>(
                   builder: (BuildContext context) => AppNavigator(controller: settingsController),
+                  settings: routeSettings,
+                );
+              case SearchBarPage.routeName:
+                return MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const SearchBarPage(service: fetchUsers),
                   settings: routeSettings,
                 );
               case ActivityListView.routeName:
