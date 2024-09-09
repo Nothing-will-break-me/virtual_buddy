@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from bson import ObjectId
 from fastapi import APIRouter, Body, HTTPException, Depends
@@ -6,7 +6,7 @@ from pymongo import ReturnDocument
 from starlette import status
 from starlette.responses import Response
 
-from ..dependencies import get_current_user
+from ..dependencies import get_current_user, validate_username
 from ..models.users import UserCollection, UserModel, UserUpdate
 from ..database import user_collection
 from ..logs import log
@@ -16,16 +16,22 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_description="List all users",
+    response_description="List all users with specified query",
     response_model=UserCollection,
     response_model_by_alias=False,
 )
-async def get_users():
+async def get_users(
+        user: Annotated[UserModel, Depends(get_current_user)],
+        username: Annotated[str | None, Depends(validate_username)] = None,
+):
     """
     Get all the user records from database.
     The response is unpaginated and limited to 1000 results.
     """
-    return UserCollection(users=await user_collection.find().to_list(1000))
+    query = {}
+    if username is not None:
+        query = {"username": {"$regex": username}}
+    return UserCollection(users=await user_collection.find(query).to_list(64))
 
 
 @router.get(
