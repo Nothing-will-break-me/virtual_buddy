@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "ADB Reverse TCP 8000",
+        "type": "shell",
+        "command": "adb reverse tcp:8000 tcp:8000",
+        "problemMatcher": []
+      }
+    ]
+  }

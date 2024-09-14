@@ -27,6 +27,8 @@ dependencies:
     git:
       url: https://github.com/juicycleff/flutter-unity-view-widget.git
       ref: flutter_3.24_android_hotfix # branch name
+  conditional_parent_widget: ^0.0.2
+  pointer_interceptor: ^0.10.1+2
 
 
 dev_dependencies:

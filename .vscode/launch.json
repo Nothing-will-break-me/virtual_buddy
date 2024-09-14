@@ -19,13 +19,21 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "--web-renderer",
-                "canvaskit",
-                "--web-port",
-                "42765",
-                "-d",
-                "chrome"
+                "--web-renderer", "canvaskit",
+                "--web-port", "42765",
+                "--web-enable-expression-evaluation",
+                "-d", "chrome"
             ]     
+        },
+        {
+            "name": "Client Android",
+            "cwd": "frontend",
+            "request": "launch",
+            "type": "dart",
+            "preLaunchTask": "ADB Reverse TCP 8000",
+            "args": [
+                "-d", "2bed8d75d41d7ece" // Change to your device ID
+            ]
         },
     ]
 }

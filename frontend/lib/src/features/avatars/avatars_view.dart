@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:conditional_parent_widget/conditional_parent_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class UnityAvatarView extends StatefulWidget {
   const UnityAvatarView({super.key});
@@ -31,11 +36,15 @@ class UnityAvatarViewState extends State<UnityAvatarView> {
           ),
           Center(
             heightFactor: 1,
-            child: ElevatedButton(
-              onPressed: () {
-                _unityWidgetController?.postMessage("Avatar", "NextTexture", "");
-              },
-              child: const Text("Swap texture"),
+            child: ConditionalParentWidget(
+              condition: kIsWeb || Platform.isIOS,
+              parentBuilder: (child) => PointerInterceptor(child: child),
+              child: ElevatedButton(
+                onPressed: () {
+                  _unityWidgetController?.postMessage("Avatar", "NextTexture", "");
+                },
+                child: const Text("Swap texture"),
+              ),
             ),
           ),
         ]

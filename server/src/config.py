@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from .logs import log
@@ -31,6 +32,9 @@ class Settings(BaseSettings):
     # Certificates for HTTPS
     SSL_PUBLIC_KEY_PATH: str
     SSL_PRIVATE_KEY_PATH: str
+
+    # CORS allowed origins
+    CORS_ORIGINS: List[str]
 
     def __repr__(self):
         text = "\nSettings:\n"
