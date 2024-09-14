@@ -22,6 +22,12 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   intl: ^0.19.0
   flutter_dotenv: ^5.1.0
+  # flutter_unity_widget: ^2022.2.1 -> Flutter 3.24 breaks API to class in flutter_unity_widget so it causes kotlin compilation errors
+  flutter_unity_widget:
+    git:
+      url: https://github.com/juicycleff/flutter-unity-view-widget.git
+      ref: flutter_3.24_android_hotfix # branch name
+
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/features/activity_add/activity_add_view.dart';
+import 'package:frontend/src/features/avatars/avatars_view.dart';
 import '../../settings/settings_controller.dart';
 import '../activity_list/activity_list_view.dart';
 
@@ -48,7 +49,7 @@ class _AppNavigatorState extends State<AppNavigator> {
         ],
       ),
       body: <Widget>[
-        const Center(child: Text("Your avatar")),
+        const UnityAvatarView(),
         ActivityAddForm(controller: widget.controller),
         ActivityListView(controller: widget.controller),
       ][currentPageIndex],
