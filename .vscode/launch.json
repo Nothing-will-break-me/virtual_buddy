@@ -5,24 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Client",
-            "cwd": "frontend",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "Client (profile mode)",
+            "name": "Client Windows",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "args": [
+                "-d", "windows"
+            ]
         },
         {
-            "name": "Client (release mode)",
+            "name": "Client Web",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
-        }
+            "args": [
+                "--web-renderer",
+                "canvaskit",
+                "--web-port",
+                "42765",
+                "-d",
+                "chrome"
+            ]     
+        },
     ]
 }
