@@ -1,5 +1,5 @@
 ## Virtual buddy
-Application for tracking sport progress and improving your virtual character. Designed for mobile apps, but currently supported in web. 
+Application for tracking sport progress and improving your virtual character. Designed for mobile platforms, but currently supported in web. 
 
 #### Prerequisites
 - python 3.11
