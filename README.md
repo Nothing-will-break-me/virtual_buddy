@@ -1,4 +1,6 @@
 ## Virtual buddy
+Application for tracking sport progress and improving your virtual character. Designed for mobile apps, but currently supported in web. 
+
 #### Prerequisites
 - python 3.11
 - MongoDB Server
