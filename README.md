@@ -13,3 +13,5 @@ To use the application you need to build projects below
 - Server [(How to build Server)](server/README.md)
 - Client [(How to build Client)](frontend/README.md)
 - AvatarsApp [(How to build AvatarsApp)](frontend/unity/README.md)
+
+To check the docs: [(Documentation)](https://docs.google.com/document/d/1geoPvuc4OIXzAteSOHhEtBGRdswpYLAbAOHzXHJG2Mg/edit?usp=sharing)
